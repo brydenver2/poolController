@@ -7,7 +7,7 @@
 .snyk
 .travis.yml
 node_modules/
-docs/
+# docs/ - Commented out to allow project documentation folder
 out/
 # ignore coverage output
 .nyc_output

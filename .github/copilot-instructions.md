@@ -2,6 +2,22 @@
 
 Purpose: Help AI agents contribute effectively to nodejs-poolController (njsPC) with minimal ramp-up.
 
+## Documentation Reference
+
+Comprehensive documentation is available in the `/docs` folder:
+- [README](../docs/README.md) - Documentation overview and quick start
+- [Architecture](../docs/architecture.md) - System architecture and design patterns
+- [Development Guide](../docs/development.md) - How to develop and extend the codebase
+- [File Reference](../docs/file-reference.md) - Quick lookup of what each file does
+- [Root Files](../docs/root-files.md) - Detailed root-level file descriptions
+- [Config System](../docs/config-system.md) - Configuration management deep dive
+- [Logger System](../docs/logger-system.md) - Logging and packet capture
+- [Controller System](../docs/controller-system.md) - Equipment and communication layers
+- [Web System](../docs/web-system.md) - Web server, REST API, and interfaces
+- [Mock System](../docs/anslq25-system.md) - Testing without hardware
+
+This guide provides a quick reference. Consult the detailed documentation for in-depth information.
+
 ## 1. Core Domain & Architecture
 - Goal: Bridge Pentair / compatible pool automation equipment (RS-485 / ScreenLogic) to REST, WebSockets, MQTT, InfluxDB, Rules, and REM (Relay Equipment Manager) interfaces.
 - Startup sequence (see `app.ts`): config.init -> logger.init -> sys.init -> state.init -> webApp.init -> conn.initAsync (RS485 / network) -> sys.start -> webApp.initAutoBackup -> sl.openAsync (ScreenLogic).
