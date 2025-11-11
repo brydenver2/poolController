@@ -713,6 +713,67 @@
       ]
     },
     {
+      "name": "heater",
+      "description": "Populate the heater topic",
+      "topics": [
+        {
+          "topic": "state/heaters/@bind=data.id;/@bind=data.name;",
+          "message": "{\"id\":@bind=data.id;,\"isOn\":@bind=data.isOn?true:false;,\"name\":\"@bind=data.name;\"}",
+          "description": "Bind heater state to the topic."
+        },
+        {
+          "topic": "state/heaters/@bind=data.id;/@bind=data.name;/isOn",
+          "message": "@bind=data.isOn;",
+          "description": "Send heater on/off state."
+        },
+        {
+          "topic": "state/heaters/@bind=data.id;/@bind=data.name;/type",
+          "message": "@bind=data.type;",
+          "description": "Send heater type."
+        },
+        {
+          "topic": "state/heaters/@bind=data.id;/@bind=data.name;/startTime",
+          "message": "@bind=data.startTime;",
+          "description": "Send heater start time.",
+          "filter": "@bind=typeof data.startTime !== 'undefined' && data.startTime !== '';"
+        },
+        {
+          "topic": "state/heaters/@bind=data.id;/@bind=data.name;/endTime",
+          "message": "@bind=data.endTime;",
+          "description": "Send heater end time.",
+          "filter": "@bind=typeof data.endTime !== 'undefined' && data.endTime !== '';"
+        }
+      ]
+    },
+    {
+      "name": "schedule",
+      "description": "Populate the schedule topic",
+      "topics": [
+        {
+          "topic": "state/schedules/@bind=data.id;/@bind=data.circuit.name;",
+          "message": "@bind=data;",
+          "description": "Send complete schedule state including circuit information."
+        },
+        {
+          "topic": "state/schedules/@bind=data.id;/@bind=data.circuit.name;/isOn",
+          "message": "@bind=data.isOn;",
+          "description": "Send schedule on/off state."
+        },
+        {
+          "topic": "state/schedules/@bind=data.id;/@bind=data.circuit.name;/startTime",
+          "message": "@bind=data.scheduleTime.startTime;",
+          "description": "Send schedule start time.",
+          "filter": "@bind=typeof data.scheduleTime !== 'undefined' && typeof data.scheduleTime.startTime !== 'undefined';"
+        },
+        {
+          "topic": "state/schedules/@bind=data.id;/@bind=data.circuit.name;/endTime",
+          "message": "@bind=data.scheduleTime.endTime;",
+          "description": "Send schedule end time.",
+          "filter": "@bind=typeof data.scheduleTime !== 'undefined' && typeof data.scheduleTime.endTime !== 'undefined';"
+        }
+      ]
+    },
+    {
       "name": "*",
       "description": "DEFAULT: Sends the entire emitted response.",
       "body": "@bind=data;",

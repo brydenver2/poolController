@@ -157,7 +157,11 @@ export class MqttInterfaceBindings extends BaseInterfaceBindings {
                 `config/chemController`,
                 `state/chemController`,
                 `config/chlorinator`,
-                `state/chlorinator`];
+                `state/chlorinator`,
+                `state/pump/setSpeed`,
+                `state/pump/setspeed`,
+                `state/heater/setState`,
+                `state/heater/setstate`];
             for (let i = 0; i < arrTopics.length; i++) {
                 this.topics.push(new MqttTopicSubscription(root, { topic: arrTopics[i] }));
             }
@@ -586,6 +590,36 @@ export class MqttInterfaceBindings extends BaseInterfaceBindings {
                             await sys.board.system.setTempSensorsAsync(msg);
                         }
                         catch (err) { logger.error(`Error processing MQTT topic ${topics[topics.length - 2]}: ${err.message}`); }
+                        break;
+                    case 'setspeed':
+                        try {
+                            if (topics[topics.length - 2].toLowerCase() !== 'pump') return;
+                            let id = parseInt(msg.id, 10);
+                            if (isNaN(id)) {
+                                logger.error(`Inbound MQTT ${topics} has an invalid id (${id}) in the message (${msg}).`);
+                                return;
+                            }
+                            // Determine if we're setting RPM, GPM, or speed percentage
+                            if (typeof msg.rpm !== 'undefined') {
+                                let rpm = parseInt(msg.rpm, 10);
+                                if (!isNaN(rpm)) {
+                                    await sys.board.pumps.setPumpAsync({ id: id, rpm: rpm });
+                                }
+                            }
+                            else if (typeof msg.flow !== 'undefined' || typeof msg.gpm !== 'undefined') {
+                                let flow = parseInt(msg.flow, 10) || parseInt(msg.gpm, 10);
+                                if (!isNaN(flow)) {
+                                    await sys.board.pumps.setPumpAsync({ id: id, flow: flow });
+                                }
+                            }
+                            else if (typeof msg.speed !== 'undefined') {
+                                let speed = parseInt(msg.speed, 10);
+                                if (!isNaN(speed)) {
+                                    await sys.board.pumps.setPumpAsync({ id: id, speed: speed });
+                                }
+                            }
+                        }
+                        catch (err) { logger.error(`Error processing MQTT pump setSpeed: ${err.message}`); }
                         break;
                     default:
                         logger.silly(`MQTT: Inbound MQTT topic not matched: ${topic}: ${message.toString()}`)

@@ -16,6 +16,7 @@ nodejs-poolController (njsPC) is a comprehensive application designed to communi
 - [Logger System](./logger-system.md)
 - [Controller System](./controller-system.md)
 - [Web Server & Interfaces](./web-system.md)
+- [MQTT Interface Guide](./mqtt-interface.md)
 - [Mock/Testing System](./anslq25-system.md)
 - [Build & Development](./development.md)
 
